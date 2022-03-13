@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Order.API.Models
 {
+    //[Owned]
     [Owned]
     public class Address
     {

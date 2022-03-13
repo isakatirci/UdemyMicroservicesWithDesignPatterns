@@ -17,6 +17,8 @@ namespace Order.API.Models
         public OrderStatus Status { get; set; }
 
         public string FailMessage { get; set; }
+
+        public CourierCompany CourierCompany { get; set; }
     }
 
     public enum OrderStatus
@@ -24,5 +26,13 @@ namespace Order.API.Models
         Suspend,
         Complete,
         Fail
+    }
+
+    public class CourierCompany
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public Order Order { get; set; }
+        public int OrderId { get; set; }
     }
 }

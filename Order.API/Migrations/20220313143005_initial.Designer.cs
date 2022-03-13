@@ -3,42 +3,23 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Order.API.Models;
 
 namespace Order.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220313143005_initial")]
+    partial class initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.7")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("Order.API.Models.CourierCompany", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("OrderId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OrderId")
-                        .IsUnique();
-
-                    b.ToTable("CourierCompany");
-                });
 
             modelBuilder.Entity("Order.API.Models.Order", b =>
                 {
@@ -90,17 +71,6 @@ namespace Order.API.Migrations
                     b.ToTable("OrderItems");
                 });
 
-            modelBuilder.Entity("Order.API.Models.CourierCompany", b =>
-                {
-                    b.HasOne("Order.API.Models.Order", "Order")
-                        .WithOne("CourierCompany")
-                        .HasForeignKey("Order.API.Models.CourierCompany", "OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Order");
-                });
-
             modelBuilder.Entity("Order.API.Models.Order", b =>
                 {
                     b.OwnsOne("Order.API.Models.Address", "Address", b1 =>
@@ -143,8 +113,6 @@ namespace Order.API.Migrations
 
             modelBuilder.Entity("Order.API.Models.Order", b =>
                 {
-                    b.Navigation("CourierCompany");
-
                     b.Navigation("Items");
                 });
 #pragma warning restore 612, 618
