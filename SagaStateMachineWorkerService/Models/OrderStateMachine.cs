@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace SagaStateMachineWorkerService.Models
 {
-    public class OrderStateMachine : MassTransitStateMachine<OrderStateInstance>
+    public class OrderStateMachine1 : MassTransitStateMachine<OrderStateInstance>
     {
         public Event<IOrderCreatedRequestEvent> OrderCreatedRequestEvent { get; set; }
         public Event<IStockReservedEvent> StockReservedEvent { get; set; }
@@ -88,5 +88,10 @@ namespace SagaStateMachineWorkerService.Models
 
             SetCompletedWhenFinalized();
         }
+    }
+
+    public class OrderStateMachine : MassTransitStateMachine<OrderStateInstance>
+    {
+
     }
 }

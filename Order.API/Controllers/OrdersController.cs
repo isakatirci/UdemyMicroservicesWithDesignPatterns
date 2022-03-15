@@ -17,14 +17,23 @@ namespace Order.API.Controllers
     [ApiController]
     public class OrdersController : ControllerBase
     {
-        private readonly AppDbContext _context;
+        //private readonly AppDbContext _context;
 
+        //private readonly ISendEndpointProvider _sendEndpointProvider;
+
+        //public OrdersController(AppDbContext context, ISendEndpointProvider sendEndpointProvider)
+        //{
+        //    _context = context;
+        //    _sendEndpointProvider = sendEndpointProvider;
+        //}
+
+        private readonly AppDbContext _context;
         private readonly ISendEndpointProvider _sendEndpointProvider;
 
         public OrdersController(AppDbContext context, ISendEndpointProvider sendEndpointProvider)
         {
-            _context = context;
-            _sendEndpointProvider = sendEndpointProvider;
+            _context = context ?? throw new ArgumentNullException(nameof(context));
+            _sendEndpointProvider = sendEndpointProvider ?? throw new ArgumentNullException(nameof(sendEndpointProvider));
         }
 
         [HttpPost]
@@ -65,6 +74,10 @@ namespace Order.API.Controllers
             {
                 orderCreatedRequestEvent.OrderItems.Add(new OrderItemMessage { Count = item.Count, ProductId = item.ProductId });
             });
+
+            //var sendEndpoint = await _sendEndpointProvider.GetSendEndpoint(new Uri($"queue:{RabbitMQSettingsConst.OrderSaga}"));
+
+            //await sendEndpoint.Send<IOrderCreatedRequestEvent>(orderCreatedRequestEvent);
 
             var sendEndpoint = await _sendEndpointProvider.GetSendEndpoint(new Uri($"queue:{RabbitMQSettingsConst.OrderSaga}"));
 

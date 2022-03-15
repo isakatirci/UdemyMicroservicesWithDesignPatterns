@@ -6,12 +6,20 @@ using System.Threading.Tasks;
 
 namespace Shared.Interfaces
 {
-    public interface IOrderCreatedRequestEvent
+    public interface IOrderCreatedRequestEvent1
     {
         public int OrderId { get; set; }
         public string BuyerId { get; set; }
         public List<OrderItemMessage> OrderItems { get; set; }
 
+        public PaymentMessage Payment { get; set; }
+    }
+
+    public interface IOrderCreatedRequestEvent
+    {
+        public int OrderId { get; set; }
+        public string BuyerId { get; set; }
+        public List<OrderItemMessage> OrderItems { get; set; }
         public PaymentMessage Payment { get; set; }
     }
 }

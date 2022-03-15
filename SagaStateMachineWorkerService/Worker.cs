@@ -19,8 +19,13 @@ namespace SagaStateMachineWorkerService
 
         public override Task StartAsync(CancellationToken cancellationToken)
         {
-            return base.StartAsync(cancellationToken);
+            return base.StartAsync(cancellationToken); 
         }
+
+        //public override Task StartAsync(CancellationToken cancellationToken)
+        //{
+        //    return base.StartAsync(cancellationToken);
+        //}
 
         public override Task StopAsync(CancellationToken cancellationToken)
         {

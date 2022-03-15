@@ -29,18 +29,16 @@ namespace SagaStateMachineWorkerService.Models
 
         public override string ToString()
         {
-            var properties = GetType().GetProperties();
 
-            var sb = new StringBuilder();
-
-            properties.ToList().ForEach(p =>
+            return GetType()
+            .GetProperties()
+            .Aggregate(new StringBuilder(), (sb, p) =>
             {
                 var value = p.GetValue(this, null);
                 sb.AppendLine($"{p.Name}:{value}");
-            });
-
-            sb.Append("------------------------");
-            return sb.ToString();
+                sb.Append("------------------------");
+                return sb;
+            }).ToString();
         }
     }
 }
