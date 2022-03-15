@@ -10,7 +10,7 @@ using SagaStateMachineWorkerService.Models;
 namespace SagaStateMachineWorkerService.Migrations
 {
     [DbContext(typeof(OrderStateDbContext))]
-    [Migration("20210706030603_initial")]
+    [Migration("20220315214914_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

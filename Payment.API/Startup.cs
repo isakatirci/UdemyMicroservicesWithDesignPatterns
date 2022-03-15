@@ -35,7 +35,11 @@ namespace Payment.API
 
                 x.UsingRabbitMq((context, cfg) =>
                 {
-                    cfg.Host(Configuration.GetConnectionString("RabbitMQ"));
+                    cfg.Host(Configuration["RabbitMQUrl"], "/", host =>
+                    {
+                        host.Username("guest");
+                        host.Password("guest");
+                    });
 
                     cfg.ReceiveEndpoint(RabbitMQSettingsConst.PaymentStockReservedRequestQueueName, e =>
                      {
