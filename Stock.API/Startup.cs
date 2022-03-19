@@ -33,6 +33,8 @@ namespace Stock.API
         {
             services.AddMassTransit(x =>
             {
+                //x.AddConsumer<OrderCreatedEventConsumer>();
+
                 x.AddConsumer<OrderCreatedEventConsumer>();
 
                 x.AddConsumer<StockRollBackMessageConsumer>();
