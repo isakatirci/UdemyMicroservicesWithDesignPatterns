@@ -98,8 +98,8 @@ namespace SagaStateMachineWorkerService.Models
                            TotalPrice = context.Instance.TotalPrice
                        },
                        BuyerId = context.Instance.BuyerId
-                   }
-                ).Then(context => { Console.WriteLine($"StockReservedEvent After : {context.Instance}"); }),
+                   })
+                .Then(context => { Console.WriteLine($"StockReservedEvent After : {context.Instance}"); }),
 
 
                 When(StockNotReservedEvent).TransitionTo(StockNotReserved)
@@ -112,7 +112,16 @@ namespace SagaStateMachineWorkerService.Models
 
 
             During(StockReserved,
-                When(PaymentCompletedEvent).TransitionTo(PaymentCompleted).Publish(context => new OrderRequestCompletedEvent() { OrderId = context.Instance.OrderId }).Then(context => { Console.WriteLine($"PaymentCompletedEvent After : {context.Instance}"); }).Finalize(),
+
+                When(PaymentCompletedEvent)
+                .TransitionTo(PaymentCompleted)
+                .Publish(context => new OrderRequestCompletedEvent()
+                {
+                    OrderId = context.Instance.OrderId
+                })
+                .Then(context => { Console.WriteLine($"PaymentCompletedEvent After : {context.Instance}"); })
+                .Finalize(),
+
                 When(PaymentFailedEvent)
                 .Publish(context => new OrderRequestFailedEvent() { OrderId = context.Instance.OrderId, Reason = context.Data.Reason })
                 .Send(new Uri($"queue:{RabbitMQSettingsConst.StockRollBackMessageQueueName}"), context => new StockRollbackMessage() { OrderItems = context.Data.OrderItems })
@@ -136,7 +145,8 @@ namespace SagaStateMachineWorkerService.Models
 
             , y => y.CorrelateBy<int>(prop => prop.OrderId, selector => selector.Message.OrderId).SelectId(context => Guid.NewGuid()));
 
-            Initially(When(OrderCreatedRequestEvent).Then(context => {
+            Initially(When(OrderCreatedRequestEvent).Then(context =>
+            {
 
                 context.Instance.BuyerId = context.Data.BuyerId;
 
