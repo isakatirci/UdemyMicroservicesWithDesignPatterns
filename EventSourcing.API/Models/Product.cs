@@ -8,7 +8,7 @@ namespace EventSourcing.API.Models
 {
     public class Product
     {
-        public Guid Id { get; set; }
+        public string Id { get; set; }
         public string Name { get; set; }
 
         [Column(TypeName = "decimal(18,2)")]
